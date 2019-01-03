@@ -51,13 +51,13 @@ async function main()
     const table = document.getElementsByClassName("js-statsTableBody")[0];
     const rows = table.getElementsByClassName("js-statsTableRow");
 
-    Array.from(rows).forEach(row =>
+    await Promise.all(Array.from(rows).map(async row =>
     {
         const addColumn = addColumnToRow(row);
         const article_data = await getArticleData(row);
 
         metrics.forEach(metric => addColumn(metric.fn(article_data), metric.display_fn(metric.fn(article_data)), metric.name));
-    });
+    }));
 };
 
 async function getArticleData(row) 
